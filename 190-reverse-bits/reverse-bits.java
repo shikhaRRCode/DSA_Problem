@@ -8,8 +8,9 @@ class Solution {
             int LSB = (n & 1);
             //2. Left shift result (to make space for LSB to add)
             result = result << 1;
-            //2. add last bit on n (using or operator)
+            //3. add last bit on n (using or operator)
             result = result | LSB;
+            //4 . right shift n (to delete leftmostbit)
             n = n >> 1;
         }
         return result;
