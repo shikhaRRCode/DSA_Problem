@@ -1,16 +1,9 @@
 class Solution {
     public boolean hasAlternatingBits(int n) 
     {
-        int curr_bit = -1;
-        while(n > 0)
-        {
-            if(curr_bit == (n%2))
-            return false;
+        int result = n ^ (n >> 1);
 
-            curr_bit = n%2;
-            n/=2;
-        }
-        return true;
+        return (result & (result+1)) == 0;       
             
     }
 }
