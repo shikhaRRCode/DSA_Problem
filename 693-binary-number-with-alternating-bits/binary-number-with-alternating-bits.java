@@ -1,13 +1,16 @@
 class Solution {
     public boolean hasAlternatingBits(int n) 
     {
-        String b = Integer.toBinaryString(n);
-        for(int i = 0 ; i < b.length()-1 ; i++)
+        int curr_bit = -1;
+        while(n > 0)
         {
-            if(b.charAt(i) == b.charAt(i+1))
+            if(curr_bit == (n%2))
             return false;
+
+            curr_bit = n%2;
+            n/=2;
         }
-        return true;               //T.C = O(log n )
+        return true;
             
     }
 }
