@@ -15,7 +15,7 @@ class Solution {
         if(n % 2 == 0) return solve(x*x , pow/2);
 
         else return x * solve(x*x , pow/2);
-    }
+    }                                                      //T.C = O(log n)
 }
 // Binary Exponentiation : 2^8 --> (2^2)^4
 // pow:even --> pow(x*x , n/2)
