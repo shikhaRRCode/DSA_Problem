@@ -20,5 +20,5 @@ class Solution {
             //handled flipped(invert)
             return ch == '0' ? '1' : '0';
         }
-    }
+    }//T.C = O(n) , S.C = O(n)
 }
