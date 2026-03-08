@@ -9,9 +9,8 @@ class Solution {
         }
 
         String result = "";
-        // maximum number possible with n bits
-        int end = (int)Math.pow(2 , n) - 1;
-        for(int i = 0 ; i <= end ; i++){
+        //no need to check till 2^n - 1,
+        for(int i = 0 ; i <= n ; i++){
             // find a number that is NOT present in the set
             if(!set.contains(i)){
                 // convert that number to binary
@@ -22,6 +21,6 @@ class Solution {
                 break;
             }
         }   
-        return result;
+        return result;                                           //T.C = O(n^2) , S.C = O(n)
     }
 }
