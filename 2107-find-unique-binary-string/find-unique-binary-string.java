@@ -2,25 +2,14 @@ class Solution {
     public String findDifferentBinaryString(String[] nums) 
     {
         int n = nums.length;
-        HashSet<Integer> set = new HashSet<>();
-        // store all given binary numbers (converted to decimal) in a set
-        for(String num : nums){
-            set.add(Integer.parseInt(num , 2));
-        }
+        StringBuilder result = new StringBuilder();
 
-        String result = "";
-        //no need to check till 2^n - 1,
-        for(int i = 0 ; i <= n ; i++){
-            // find a number that is NOT present in the set
-            if(!set.contains(i)){
-                // convert that number to binary
-                result += Integer.toBinaryString(i);
-                while(result.length() < n){
-                    result = "0" + result;   //to make the result of length n
-                }
-                break;
-            }
-        }   
-        return result;                                           //T.C = O(n^2) , S.C = O(n)
-    }
+        for(int i = 0 ; i < n ; i++){
+            // take the ith character of the ith string (diagonal element)
+            char ch = nums[i].charAt(i);
+            // flip it (0 → 1, 1 → 0) so our string differs at this position
+            result.append((ch == '0') ? '1' : '0');
+        }
+        return result.toString();                //T.C = O(n) , S.C = O(1)
+    }    
 }
