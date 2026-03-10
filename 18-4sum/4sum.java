@@ -25,11 +25,7 @@ class Solution {
 
                     if(sum == target){
                         // found a valid quadruplet
-                        ans.add(new ArrayList<>());
-                        ans.get(ans.size() - 1).add(nums[i]);
-                        ans.get(ans.size() - 1).add(nums[j]);
-                        ans.get(ans.size() - 1).add(nums[start]);
-                        ans.get(ans.size() - 1).add(nums[end]);
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[start], nums[end]));
 
                         start++;
                         end--;
