@@ -1,19 +1,21 @@
 class Solution {
     public String getHappyString(int n, int k) {
         StringBuilder curr = new StringBuilder();
-        ArrayList<String> result = new ArrayList<>();
+        String[] result = {""};     //(to store kth string) Using an array to pass by reference
+        int[] count = {0};          //to keep track of kth string
 
-        solve(n , curr , result);
+        solve(n , curr , k , count ,  result);
 
-        if(result.size() < k){
-            return "";
-        }
-
-        return result.get(k-1);
+        return result[0];
     }
-    public void solve(int n ,  StringBuilder curr , ArrayList<String> result){
+    public void solve(int n ,  StringBuilder curr , int k , int[] count ,  String[] result ){
         if(curr.length() == n){
-            result.add(curr.toString());
+            count[0]++;
+
+            if(count[0] == k)
+            {
+                result[0] = curr.toString();
+            }
             return;
         }
 
@@ -26,7 +28,7 @@ class Solution {
             curr.append(ch);
 
             //Explore
-            solve(n , curr , result);
+            solve(n , curr , k , count , result);
 
             //Undo
             curr.deleteCharAt(curr.length() - 1);
@@ -34,4 +36,4 @@ class Solution {
     }
 }
 // T.C : O(n * 3 * 2^(n-1)) ~= O(n*2^n)  ------> n for storing string in list
-// S.C : O(n * 2^n), total 2^n strings each having length n
+// S.C : O(n) by recursion system stack
