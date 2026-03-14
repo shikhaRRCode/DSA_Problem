@@ -33,3 +33,5 @@ class Solution {
         }
     }
 }
+// T.C : O(n * 3 * 2^(n-1)) ~= O(n*2^n)  ------> n for storing string in list
+// S.C : O(n * 2^n), total 2^n strings each having length n
