@@ -1,36 +1,22 @@
 class Solution {
-    // memoization array to store result of each index
-    int[] t = new int[10001];
-
     public boolean canJump(int[] nums) {
+        //BOTTOM-UP APPROACH
         int n = nums.length;
 
-        // initialize memo with -1 (not computed yet)
-        Arrays.fill(t , -1);
-
-        return solve(nums , n , 0);
-    }
-    public boolean solve(int[] nums , int n , int idx)
-    {
-        // if we reach last index → jump is possible
-        if(idx == n-1){
-            return true;
-        }
-
-        // if already solved before, return stored result
-        if(t[idx] != -1){
-            return t[idx] == 0 ? false : true;
-        }
-
-        // try all possible jumps from current index
-        for(int i = 1 ; i <= nums[idx] ; i++){
-            if(solve(nums , n , idx + i)){
-                t[idx] = 1;    // store true
-                return true;
+        boolean[] t = new boolean[n];
+        //t[i] = true  : means me i tkk pahuch skta hu
+        //t[i] = false  : means me i  tkk nahi pahuch skta
+        t[0] = true;
+        for(int i = 1 ; i < n ; i++)
+        {
+            for(int j = i -1 ; j >= 0 ; j--)
+            {
+                if(t[j] == true && j + nums[j] >= i){
+                    t[i] = true;
+                }
             }
         }
-        // if no jump works, mark this index as false
-        t[idx] = 0;
-        return false;
+
+        return t[n-1];                //T.C = O(N^2)
     }
 }                                       
