@@ -1,22 +1,17 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        //BOTTOM-UP APPROACH
+        //Greedy Approach --> Better than Dp for this question
         int n = nums.length;
 
-        boolean[] t = new boolean[n];
-        //t[i] = true  : means me i tkk pahuch skta hu
-        //t[i] = false  : means me i  tkk nahi pahuch skta
-        t[0] = true;
-        for(int i = 1 ; i < n ; i++)
+        int maxReachable = 0;            // farthest index reachable so far
+        for(int i = 0 ; i < n ; i++)
         {
-            for(int j = i -1 ; j >= 0 ; j--)
-            {
-                if(t[j] == true && j + nums[j] >= i){
-                    t[i] = true;
-                }
+            // if current index is beyond reachable range → we are stuck
+            if(i > maxReachable){
+                return false;
             }
+            maxReachable = Math.max(maxReachable , i + nums[i]);
         }
-
-        return t[n-1];                //T.C = O(N^2)
+        return true;                          //T.C = O(n)
     }
 }                                       
