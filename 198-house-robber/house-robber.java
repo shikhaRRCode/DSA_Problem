@@ -1,34 +1,23 @@
 class Solution {
     public int rob(int[] nums) 
     {
+        //Bottom-Up approach
         int n = nums.length;
-        //Recursion + Memoization
-
-        //1. Create dp array  
         int[] dp = new int[n+1];
-        Arrays.fill(dp , -1);
 
-        return solve(0 , nums , dp);
-    }
-    public int solve(int i , int[] nums , int[] dp)
-    {
-        if(i >= nums.length){
-            return 0;
-        }
-        
-        //2. Check
-        if(dp[i] != -1){
-            return dp[i];
-        }
+        // 0 houses → 0 money
+        dp[0] = 0;
+        // only 1 house → rob it
+        dp[1] = nums[0];
 
-        //steal
-        int pick = nums[i] + solve(i + 2  , nums , dp);
-        //skip
-        int nPick = solve(i+1 , nums , dp);
+        for(int i = 2 ; i <=n ; i++)
+        {
+            int steal = nums[i-1] + dp[i-2];
+            int skip = dp[i-1];
 
-        //3. Store
-        dp[i] = Math.max(pick , nPick);
-        return dp[i];
-    }
+            dp[i] = Math.max(steal , skip);
+        }  
 
-}
+        return dp[n];
+    }//dp[i] : represents max money stolen till house i
+}    //here , we are counting from 1 , but array follows 0-based indexing that's why n+1
