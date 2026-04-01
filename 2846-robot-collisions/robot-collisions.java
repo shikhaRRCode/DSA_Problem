@@ -38,11 +38,6 @@ class Solution {
                         st.pop();
                         healths[idx]--;
 
-                        // If current robot still alive, push it
-                        if (st.isEmpty() && healths[idx] > 0) {
-                            st.push(idx);
-                            break;
-                        }
                     }
                 }
             }    
