@@ -3,24 +3,10 @@ class Solution {
         int n = encodedText.length();
 
         int cols = n/rows;
-        char[][] mat = new char[rows][cols];
-
-        int idx = 0;
-        for(int i = 0 ; i < rows ; i++){
-            for(int j = 0 ; j < cols ; j++){
-                mat[i][j] = encodedText.charAt(idx++);
-            }
-        }
-
-        //Traversing diagonally 
         StringBuilder originalText = new StringBuilder();
         for(int c = 0 ; c < cols ; c++){
-            int i = 0 ;
-            int j = c;
-            while(i < rows && j < cols){
-                originalText.append(mat[i][j]);
-                i++;
-                j++;
+            for(int j = c ; j < n ; j+=cols+1){
+                originalText.append(encodedText.charAt(j));
             }
         }
 
