@@ -3,34 +3,42 @@ class Solution {
         int n = mat.length;
         int m = mat[0].length;
 
-        HashMap<Integer,List<Integer>> map = new HashMap<>();
-        for(int i = 0 ; i < n ; i++){
-            for(int j = 0 ; j < m ; j++){
-                int key = i+j;
-                map.putIfAbsent(key , new ArrayList<>());
-                map.get(key).add(mat[i][j]);
+        int[] res = new int[n*m];
+        int r = 0, c = 0 , dir = 1;  // 1 = up-right, -1 = down-left
+
+        for(int i = 0 ; i < n*m ; i++){
+            res[i] = mat[r][c];
+
+            if(dir == 1){//going up
+                if(c == m-1){
+                    r++;
+                    dir = -1;
+                }
+                else if(r == 0){
+                    c++;
+                    dir =-1;
+                }
+                else{
+                    r--;
+                    c++;
+                }
             }
-        }   
-
-        boolean flip = true;
-        ArrayList<Integer> ans = new ArrayList<>();
-        for(int k = 0 ; k <= m+n-2 ; k++)
-        {
-            List<Integer> diagonal = map.get(k);
-
-            if(flip){
-                Collections.reverse(diagonal);
+            else{  //going-down
+                if(r == n-1){
+                    c++;
+                    dir = 1;
+                }
+                else if(c == 0){
+                    r++;
+                    dir = 1;
+                }
+                else{
+                    r++;
+                    c--;
+                }
             }
-            ans.addAll(diagonal);
-
-            flip = !flip;
         }
 
-        int[] arr = new int[ans.size()];
-        int idx = 0;
-        for(int val : ans){
-            arr[idx++] = val;
-        }
-        return arr;
+        return res;
     }
 }
