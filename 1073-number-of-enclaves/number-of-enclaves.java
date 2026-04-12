@@ -20,28 +20,8 @@ class Solution {
         int count = 0;
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
-
                 if(grid[i][j] == 1){
-                    //BFS
                     count++;
-                    grid[i][j] = 0;
-                    q.add(new int[]{i,j});
-                    while(!q.isEmpty()){
-                        int[] top = q.remove();
-                        int x = top[0];
-                        int y = top[1];
-
-                        for(int k = 0 ; k < 4 ; k++){
-                            int new_x = x + row[k];
-                            int new_y = y + col[k];
-
-                            if(valid(new_x , new_y) && grid[new_x][new_y] == 1){
-                                count++;
-                                grid[new_x][new_y] = 0;
-                                q.add(new int[]{new_x , new_y});
-                            }
-                        }
-                    }
                 }
             }
         }
