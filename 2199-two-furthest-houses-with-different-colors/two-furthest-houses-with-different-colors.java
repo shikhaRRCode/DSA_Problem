@@ -5,24 +5,17 @@ class Solution {
         // Idea: max distance will always involve one end (0 or n-1)
 
         int max_Dist = 0;
-        int i = 0 , j = n-1;
-        // Case 1: Fix right end, move left pointer
-        while(i < j){
-            if(colors[i] != colors[j]){
-                max_Dist = Math.max(max_Dist , j - i);
-                break; 
-            }
-            i++;
-        }
+        for(int i = 0 ; i < n ; i++){
 
-        i = 0 ; j = n-1;
-        // Case 2: Fix left end, move right pointer
-        while(j > i){
-            if(colors[i] != colors[j]){
-                max_Dist = Math.max(max_Dist , j - i);
-                break; 
+            // Case 1: Fix left end, move right pointer
+            if(colors[i] != colors[0]){
+                max_Dist = Math.max(max_Dist , i - 0);
             }
-            j--;
+
+            // Case 2: Fix right end, move left pointer
+            if(colors[i] != colors[n-1]){
+                max_Dist = Math.max(max_Dist , (n-1) - i);
+            }
         }
 
         return max_Dist;
