@@ -9,6 +9,10 @@ class Solution {
                     if(que.charAt(i) != dict.charAt(i)){
                         diff++;
                     }
+
+                    if(diff > 2){
+                        break;
+                    }
                 }
 
                 if(diff <= 2){
@@ -19,4 +23,4 @@ class Solution {
         }
         return ans;
     }
-}
+}// here , dict[i] == que[i] == n (all are of same length)
