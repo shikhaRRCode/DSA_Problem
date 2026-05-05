@@ -1,40 +1,22 @@
 class Solution {
-    // memoization array to store result of each index
-    int[] dp;
     public int jump(int[] nums) 
     {
-        int n = nums.length;
-        dp = new int[n];
-        // initialize memo with -1 (not computed yet)
-        Arrays.fill(dp , -1);
+        int jumps = 0;     // number of jumps taken
+        int range = 0;     // current range we can reach with current jumps
+        int farthest = 0;  // farthest index we can reach
 
-        return solve(nums , n , 0);
-    }
-    public int solve(int[] nums, int n, int idx) {
+        // traverse array (no need to go till last index)
+        for (int i = 0; i < nums.length - 1; i++) {
 
-        // reached end → no more jumps needed
-        if (idx >= n - 1) {
-            return 0;
-        }
+            // update farthest we can reach from current position
+            farthest = Math.max(farthest, i + nums[i]);
 
-        // already computed
-        if (dp[idx] != -1) {
-            return dp[idx];
-        }
-
-        int minJump = Integer.MAX_VALUE;
-
-        // try all jumps
-        for (int i = 1; i <= nums[idx]; i++) {
-
-            int next = solve(nums, n, idx + i);
-
-            // valid path
-            if (next != Integer.MAX_VALUE) {
-                minJump = Math.min(minJump, 1 + next);
+            // if we reach end of current range → we must jump
+            if (i == range) {
+                jumps++;           // take jump
+                range = farthest;  // update new range
             }
-        }
-
-        return dp[idx] = minJump;
-    }  
+        }  
+        return jumps;  
+    }
 }
