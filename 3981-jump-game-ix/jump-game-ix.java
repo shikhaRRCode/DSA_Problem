@@ -4,11 +4,13 @@ class Solution {
         int[] leftMax = new int[n];
         int[] rightMin = new int[n];
 
+        // leftMax[i] → maximum value from 0 → i
         leftMax[0] = nums[0];
         for(int i = 1 ; i < n ; i++){
             leftMax[i] = Math.max(leftMax[i-1] , nums[i]);
         }
 
+        // rightMin[i] → minimum value from i → n-1
         rightMin[n-1] = nums[n-1];
         for(int i = n-2 ; i >= 0 ; i--){
             rightMin[i] = Math.min(rightMin[i+1] , nums[i]);
@@ -17,10 +19,12 @@ class Solution {
         int[] ans = new int[n];
         ans[n-1] = leftMax[n-1];
         for(int i = n-2 ; i >= 0 ; i--){
+            // If partition condition is valid:
             if(leftMax[i] <= rightMin[i+1]){
                 ans[i] = leftMax[i];
             }
             else{
+                //else store next index ans
                 ans[i] = ans[i+1];
             }
         }
