@@ -4,19 +4,15 @@ class Solution {
 
         int[] C = new int[n];
 
-        //Elements are in range 1 - n
-        boolean isPresentA[] = new boolean[n+1];
-        boolean isPresentB[] = new boolean[n+1];
-
+        HashMap<Integer , Integer> map = new HashMap<>();
+        int count = 0;
         for(int i = 0 ; i < n ; i++){
-            isPresentA[A[i]] = true;
-            isPresentB[B[i]] = true;
-            int count = 0;
-            for(int j = 1 ; j <= n ; j++){
-                if(isPresentA[j] && isPresentB[j]){
-                    count++;
-                }
-            }
+            map.put(A[i] , map.getOrDefault(A[i] , 0)+1);
+            if(map.get(A[i]) == 2)     count++;
+            
+            map.put(B[i] , map.getOrDefault(B[i] , 0)+1);
+            if(map.get(B[i]) == 2)     count++;
+
             C[i] = count;
         }
         return C;
