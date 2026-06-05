@@ -1,48 +1,71 @@
 class LRUCache {
-    // stores {key, value} pairs
-    ArrayList<int[]> cache = new ArrayList<>();
-    int n;
+    class Node{
+        int key,value;
+        Node next,prev;
+        Node(int key , int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+    public void remove(Node root){
+        root.prev.next = root.next;
+        root.next.prev = root.prev;
+    }
+    public void add(Node root){
+
+        root.next = head.next;
+        head.next.prev = root;
+
+        root.prev = head;
+        head.next = root;
+    }
+    Node head , tail;
+    HashMap<Integer,Node> map;
+    int capacity;
+
     public LRUCache(int capacity) {
-        n = capacity;
+
+        this.capacity = capacity;
+        map = new HashMap<>();
+
+
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+
+        head.next = tail;
+        tail.prev = head;
     }
 
     public int get(int key) {
-        // search key in cache
-        for(int i = 0 ; i < cache.size() ; i++){
-            // key found
-            if(cache.get(i)[0] == key){
-                // make it most recently used
-                int[] temp = new int[]{cache.get(i)[0] , cache.get(i)[1]};
-                cache.remove(i);
-                cache.add(temp);
-
-                // return value
-                return temp[1];
-            }
+        if(!map.containsKey(key)){
+            return -1;
         }
-        // key not present
-        return -1;
+
+        Node curr = map.get(key);
+        remove(curr);
+        add(curr);
+        return curr.value;
     }
     
     public void put(int key, int value) {
-        for(int i = 0 ; i < cache.size() ; i++){
-            // if key already exists
-            if(cache.get(i)[0] == key){
-                // remove old entry
-                cache.remove(i);
+        if(map.containsKey(key)){
+            Node curr = map.get(key);
+            curr.value = value;
 
-                // add updated entry at end
-                // (most recently used)
-                cache.add(new int[]{key,value});
-                return;
-            }
+            remove(curr);
+            add(curr);
+            return;
         }
-        // cache full -> remove least recently used item
-        if(cache.size() == n){
-            cache.remove(0);
+
+        if(map.size() == capacity){
+            Node lru = tail.prev;
+
+            remove(lru);
+            map.remove(lru.key);
         }
-        // add new item as most recently used
-        cache.add(new int[]{key , value});
+        Node newNode = new Node(key , value);
+        add(newNode);
+        map.put(key , newNode);
     }
 }
 
