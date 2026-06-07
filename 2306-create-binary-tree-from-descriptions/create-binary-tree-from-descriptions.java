@@ -19,37 +19,30 @@ class Solution {
         HashMap<Integer , TreeNode> map = new HashMap<>();
         HashSet<Integer> children = new HashSet<>();
 
-        TreeNode root = null;
-        for(int i = 0 ; i < n ; i++){
-            TreeNode parent;
-            TreeNode child;
-            int isLeft = descriptions[i][2];
-            if(map.containsKey(descriptions[i][0])){
-                parent = map.get(descriptions[i][0]);
-            }
-            else{
-                parent = new TreeNode(descriptions[i][0]);
-                map.put(descriptions[i][0] , parent);
-            }
-
-            if(map.containsKey(descriptions[i][1])){
-                child = map.get(descriptions[i][1]);
-            }
-            else{
-                child = new TreeNode(descriptions[i][1]);
-                map.put(descriptions[i][1] , child);
-            }
-            children.add(descriptions[i][1]);
-
-            if(isLeft == 1){
+        for (int[] desc : descriptions) {
+            int parentVal = desc[0];
+            int childVal = desc[1];
+            int isLeft = desc[2];
+        
+            // 1. Get or create the parent node
+            TreeNode parent = map.computeIfAbsent(parentVal, k -> new TreeNode(parentVal));
+        
+            // 2. Get or create the child node (Fixed the typo here)
+            TreeNode child = map.computeIfAbsent(childVal, k -> new TreeNode(childVal));
+        
+            // 3. Establish the link
+            if (isLeft == 1) {
                 parent.left = child;
+            } 
+            else {
+            parent.right = child;
             }
-            else{
-                parent.right = child;
-            }
-
+        
+            // 4. Record that this node is a child
+            children.add(childVal);
         }
 
+        // 5. Find the absolute root (the node that is never a child)
         for(int key : map.keySet()){
             if(!children.contains(key)){
                 return map.get(key);
