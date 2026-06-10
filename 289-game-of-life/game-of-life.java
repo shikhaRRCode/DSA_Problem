@@ -23,14 +23,11 @@ class Solution {
                 if(board[i][j] == 1){
                     if(live == 2 || live == 3){
                         next[i][j] = 1;
-                    }else{
-                        next[i][j] = 0;
                     }
+
                 }else{
                     if(live == 3){
                         next[i][j] = 1;
-                    }else{
-                        next[i][j] = 0;
                     }
                 }
         
@@ -47,9 +44,5 @@ class Solution {
         return i >= 0 && i < n && j >= 0 && j < m;                           
     }
 }
-//logic: 
-//dead -> neigh three = live
-//live : neigh : 1 = dead
-//     : neigh :2 or 3 = live
-//     : 4 or more = dead
+
      
