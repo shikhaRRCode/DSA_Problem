@@ -44,19 +44,3 @@ class Solution {
         return result;
     }
 }
-//Steps:
-//1. Build adjacency matrix
-//2. Find max_depth
-//3. return 2^maxdepth-1
-
-//logic to find odd edge path:
-// total edges : max_depth = d
-// each edge has 2 possibility : 1/2 = 2
-// therefore , 2^d = total pos
-
-// even poss == odd poss
-// Total possibility = even poss + odd poss
-// total poss = 2odd poss
-// 2^d = e odd poss
-// therefore, ODD poss = 2^d-1
-
