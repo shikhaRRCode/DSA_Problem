@@ -11,6 +11,7 @@
 class Solution {
     public int pairSum(ListNode head) 
     {
+        //step : 1 Finding mid node
         ListNode slow = head;
         ListNode fast = head;
         while(fast != null){
@@ -18,6 +19,7 @@ class Solution {
             fast = fast.next.next;
         }
 
+        //step : 2 reversing second half of linked list
         ListNode prev = null;
         ListNode curr = slow;
         while(curr != null){
@@ -28,6 +30,7 @@ class Solution {
             curr = next;
         }
 
+        //step :3 comparing twin nodes
         ListNode front = head;
         ListNode rear = prev;
         int maxSum = 0;
