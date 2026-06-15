@@ -8,6 +8,7 @@ class Solution {
         }
         int count = 0;
         for (int k = 0; k < n; k++) {
+            //1. check if array is already non-decreasing
             boolean flag = true;
             for (int i = 0; i < temp.size() - 1; i++) {
                 if (temp.get(i) > temp.get(i + 1)) {
@@ -16,12 +17,14 @@ class Solution {
                 }
             }
 
+            // if sorted, return operations performed
             if (flag) {
                 return count;
             }
 
             int limit = Integer.MAX_VALUE;
             int x = 0, y = 0;
+            //2. find adjacent pair with minimum sum
             for (int i = 0; i < temp.size() - 1; i++) {
                 int sum = temp.get(i) + temp.get(i + 1);
                 if (sum < limit) {
@@ -30,9 +33,11 @@ class Solution {
                     y = i + 1;
                 }
             }
+            //3. merge the minimum-sum adjacent pair
             temp.set(x, limit);
             temp.remove(y);
 
+            //4. increase the no. of operation by one
             count++;
         }
         return count;
