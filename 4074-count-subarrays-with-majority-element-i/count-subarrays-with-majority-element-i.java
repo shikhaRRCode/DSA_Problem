@@ -8,8 +8,10 @@ class Solution {
                 if(nums[j] == target){
                     freq++;
                 }
-
-                if(freq > (j-i+1)/2){
+                else{
+                    freq--;
+                }
+                if(freq > 0){
                     count++;
                 }
 
