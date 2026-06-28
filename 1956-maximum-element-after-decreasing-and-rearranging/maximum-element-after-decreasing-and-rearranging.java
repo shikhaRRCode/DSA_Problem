@@ -4,18 +4,14 @@ class Solution {
 
         Arrays.sort(arr);
         arr[0] = 1;
-        int count = 2;
+
         for(int i = 1; i < n ; i++){
-            if(arr[i] - arr[i-1] == 0){
-                continue;
-            }
             if(arr[i] - arr[i-1] > 1){
-                arr[i] = count;
+                arr[i] = arr[i-1]+1;
                 
             }
-            count++;
-        }
 
+        }
         return arr[n-1];
     }
 }
