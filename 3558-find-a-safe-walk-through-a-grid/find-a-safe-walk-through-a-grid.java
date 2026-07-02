@@ -38,11 +38,6 @@ class Solution {
             if (check(new_i, new_j)) {
                 int val = grid.get(new_i).get(new_j);
                 
-                // Early pruning if the next step would kill us
-                if (health - val < 1) {
-                    continue; 
-                }
-                
                 if (solve(new_i, new_j, grid, health - val)) {
                     return true;
                 }
