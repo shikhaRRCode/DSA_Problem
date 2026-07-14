@@ -1,0 +1,42 @@
+class Solution {
+    int n , m;
+    int[][] dp;
+    public int maximalSquare(char[][] matrix) {
+        n = matrix.length;
+        m = matrix[0].length;
+        dp = new int[n][m];
+        for(int i = 0 ; i < n ; i++){
+            Arrays.fill(dp[i] , -1);
+        }
+
+        int maxArea = 0;   
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                if(matrix[i][j] == '1'){
+                    int side = solve(i , j , matrix , dp);
+                    maxArea = Math.max(maxArea , side * side );
+                }
+            }
+        }
+        return maxArea;
+    }
+    public int solve(int i , int j , char[][] grid , int[][] dp){
+        if(i >= n || j >= m){
+            return 0;
+        }
+
+        if(grid[i][j] == '0'){
+            return 0;
+        }
+
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        int right = solve(i+1 , j , grid , dp);
+        int diagonal = solve(i+1 , j+1 , grid , dp);
+        int left = solve(i , j+1 , grid , dp);
+
+        return dp[i][j] = 1 + Math.min(right , Math.min(left , diagonal));
+    }
+}
