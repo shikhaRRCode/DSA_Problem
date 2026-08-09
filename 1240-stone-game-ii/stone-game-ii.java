@@ -12,14 +12,14 @@ class Solution {
             return 0;
         }
 
+        if(t[person][i][M] != 0){
+            return t[person][i][M];
+        }
+
         int result = (person == 1) ? -1 : Integer.MAX_VALUE;
         int stones = 0;
         for(int x = 1 ; x <= Math.min(2*M , n-i) ; x++){
             stones += piles[i+x-1];
-
-            if(t[person][i][M] != 0){
-                return t[person][i][M];
-            }
             
             if(person == 1){     //Alice
                 result = Math.max(result , stones + solveForAlice(0 , i+x , Math.max(x , M) , piles));
