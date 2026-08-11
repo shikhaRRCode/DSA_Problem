@@ -1,30 +1,22 @@
 class Solution {
     int[] t;
     public boolean winnerSquareGame(int n) {
-        t = new int[n+1];
-        Arrays.fill(t , -1);
 
-        return solve(n);   //Alice k lie call hai ye. If it's true, Alice wins, else Alice looses
-    }
-    public boolean solve(int n){
-        if(n == 0){
-            return false;
-        }
+        boolean[] t = new boolean[n+1];
+        //Base case . n == 0, return false
+        t[0] = false; //base case
 
-        if(t[n] != -1){
-            return t[n] == 0 ? false : true;
-        }
-
-        for(int k = 1 ; k*k <= n ; k++){  
-            
-            if(solve(n-k*k) == false){  //Call for Bob //False - Bob lost it
-                //Alice won the game
-                t[n] = 1;
-                return true;
+        //Bottom-up :Tabulation
+        for(int i = 0 ; i < n+1 ; i++){
+            for(int k = 1 ; k*k <= i ; k++){
+                if(t[i-k*k] == false){
+                    t[i] = true;
+                    break;
+                }
             }
-        }   
-        t[n] = 0;
-        return false;    //Alice could never win. Lost it.
+        }
+        return t[n];
     }
-} //T.C : O(n * sqrt(n))
+}
+//T.C : O(n * sqrt(n))
 //S.C : O(n)
