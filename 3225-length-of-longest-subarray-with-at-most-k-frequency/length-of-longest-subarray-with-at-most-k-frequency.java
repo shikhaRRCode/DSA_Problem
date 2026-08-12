@@ -5,26 +5,18 @@ class Solution {
 
         int left = 0;
         int longestSub_arrayLength = 0;
-        for(int right = 0 ; right < n ; right++){
-            if(map.containsKey(nums[right])){
-                int freq =map.get(nums[right]);
+        for (int right = 0; right < n; right++) {
+            // Always add the current element to the map
+            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
 
-                if(freq == k){
-                    while(nums[left] != nums[right]){
-                        map.put(nums[left] , map.get(nums[left])-1);
-                        left++;
-                    }
-                    left++;
-                }
-                else{
-                    map.put(nums[right] , map.get(nums[right])+1);
-                }
+            // If frequency exceeds k, shrink the window from the left
+            while (map.get(nums[right]) > k) {
+                map.put(nums[left], map.get(nums[left]) - 1);
+                left++;
             }
-            else{
-                map.put(nums[right] , 1);
-            }
-            longestSub_arrayLength = Math.max(longestSub_arrayLength , right-left+1);
 
+            // Update the maximum subarray length
+            longestSub_arrayLength = Math.max(longestSub_arrayLength, right - left + 1);
         }
         return longestSub_arrayLength;
     }
