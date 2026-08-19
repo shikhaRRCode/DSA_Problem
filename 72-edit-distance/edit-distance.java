@@ -10,30 +10,30 @@ class Solution {
             Arrays.fill(arr , -1);
         }
 
-        return solve(word1 , word2 , 0 , 0);   
+        return solve(word1 , word2 , m , n);   
     }
-    public int solve(String s1 , String s2 , int i , int j){
+    public int solve(String s1 , String s2 , int m , int n){
         //Base cases:
-        if(i == m){
-            return n-j;  //insertions
+        if(m == 0){
+            return n;  //insertions
         }
-        if(j == n){
-            return m-i; //deletions
+        if(n == 0){
+            return m; //deletions
         }
 
         //2. DP check
-        if(dp[i][j] != -1){
-            return dp[i][j];
+        if(dp[m][n] != -1){
+            return dp[m][n];
         }
 
-        if(s1.charAt(i) == s2.charAt(j)){
-            return solve(s1 , s2 , i+1 , j+1);
+        if(s1.charAt(m-1) == s2.charAt(n-1)){
+            return solve(s1 , s2 , m-1 , n-1);
         }
 
-        int insert = 1 + solve(s1 , s2 , i , j+1);
-        int delete = 1 + solve(s1 , s2 , i+1 , j);
-        int replace = 1 + solve(s1 , s2 , i+1 , j+1);
+        int insert = 1 + solve(s1 , s2 , m , n-1);
+        int delete = 1 + solve(s1 , s2 , m-1 , n);
+        int replace = 1 + solve(s1 , s2 , m-1 , n-1);
 
-        return dp[i][j] =  Math.min(insert , Math.min(delete ,replace));
+        return dp[m][n] =  Math.min(insert , Math.min(delete ,replace));
     }
 }
