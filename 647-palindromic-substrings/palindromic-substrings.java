@@ -3,41 +3,34 @@ class Solution {
     public int countSubstrings(String s) 
     {
         int n = s.length();
-        dp = new int[n+1][n+1];
-        for(int[] arr : dp){
-            Arrays.fill(arr , -1);
-        }
+        boolean[][] dp = new boolean[n+1][n+1];
 
-        int count=0;
-        for(int i = 0 ; i < n ; i++)
-        {
-            for(int j = i; j < n ; j++)
-            {
-                if(ispalindromic(s , i , j))
-                {
+        int count = 0;
+        for(int L = 1 ; L <= n ; L++){
+            for(int i = 0 ; i + L - 1 < n ; i++){
+                int j = i+L-1;
+
+                if(i == j){         //1 Length substring
+                    dp[i][j] = true;
+                }
+                else if(i+1 == j){     //2 Length substring
+                    dp[i][j] = (s.charAt(i) == s.charAt(j)) ? true : false;
+                }
+                else{              //general length substring
+                    dp[i][j] = (s.charAt(i) == s.charAt(j) && dp[i+1][j-1]) ? true : false;
+                }
+
+                if(dp[i][j]){
                     count++;
                 }
+
             }
         }
         return count;
-    }
-    public boolean ispalindromic(String s , int i , int j)
-    {
-        if(i >= j){
-            return true;
-        }
-
-        if(dp[i][j] != -1){
-            return dp[i][j] == 1 ? true : false;
-        }
-
-        if(s.charAt(i) == s.charAt(j)){
-            boolean check = ispalindromic(s , i+1 , j-1);
-            dp[i][j] = check ? 1 : 0;
-            return check;
-        }
-        dp[i][j] = 0;
-        return false;
-    }    
+    }   
 }
-//T.C = O(n^2)
+//State Def : 
+//d[i][j] -> true  means substring (i,j) -> is palindrome
+//        -> false means substring (i,j) -> not a palindrome
+
+// Note : all 1 length substring are palindrome (i.e all diagonal elements are true of dp
