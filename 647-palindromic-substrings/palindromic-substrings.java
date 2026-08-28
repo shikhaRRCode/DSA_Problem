@@ -36,6 +36,8 @@ class Solution {
             dp[i][j] = check ? 1 : 0;
             return check;
         }
+        dp[i][j] = 0;
         return false;
     }    
 }
+//T.C = O(n^2)
