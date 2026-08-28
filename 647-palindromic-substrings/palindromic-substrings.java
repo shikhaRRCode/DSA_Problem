@@ -1,5 +1,4 @@
 class Solution {
-    int[][] dp;
     public int countSubstrings(String s) 
     {
         int n = s.length();
@@ -27,7 +26,7 @@ class Solution {
             }
         }
         return count;
-    }   
+    }   //T.C = O(N^2)
 }
 //State Def : 
 //d[i][j] -> true  means substring (i,j) -> is palindrome
