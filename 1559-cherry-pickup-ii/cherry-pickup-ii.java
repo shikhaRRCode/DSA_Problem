@@ -1,46 +1,44 @@
 class Solution {
-    int[][][] dp;
-    int n , m;
     public int cherryPickup(int[][] grid) {
-        m = grid.length;
-        n = grid[0].length;
+        int m = grid.length;
+        int n = grid[0].length;
 
-        dp = new int[m+1][n+1][n+1];
-        for(int[][] arr : dp){
-            for(int[] subarr : arr){
-                Arrays.fill(subarr , -1);
+        //dp[row][c1][c2] : max cherry collected till rob1 is on grid[row][c1] && rob2 is on grid[row][c2] 
+        int[][][] dp = new int[m+1][n+1][n+1];
+
+        //For first row (robot1 is in 0th column) and robot2 is in (n-1)th column
+        dp[0][0][n-1] = n == 1 ? grid[0][0] : grid[0][0] + grid[0][n-1];
+
+        for(int row = 1 ; row < m ; row++){
+            for(int c1 = 0 ; c1 <= Math.min(row ,n-1) ; c1++){
+                for(int c2 = Math.max(0 , n-row-1) ; c2 < n ; c2++){
+
+                    int prevMax = 0;
+                    //A Robot can come to current column from either column-1, column, or column+1 of prev row (row-1)
+                    for(int i = Math.max(0 , c1-1) ; i <= Math.min(n-1 , c1+1) ; i++){
+                        for(int j = Math.max(0 , c2-1) ; j <= Math.min(n-1 , c2+1) ; j++){
+                            prevMax = Math.max(prevMax , dp[row-1][i][j]);
+                        }
+                    }
+
+                    if(c1 == c2){
+                        dp[row][c1][c2] = prevMax + grid[row][c1];
+                    }
+                    else{
+                        dp[row][c1][c2] = prevMax + grid[row][c1] + grid[row][c2];
+                    }
+                }
             }
-        }
-
-        return solve(grid , 0 , 0 , n-1);
-    }
-    public int solve(int[][] grid , int row , int c1 , int c2){
-        if(row >= m){
-            return 0;
-        }
-
-        if(dp[row][c1][c2] != -1){
-            return dp[row][c1][c2];
-        }
-
-        int cherry = grid[row][c1];
-        if(c1 != c2){
-            cherry += grid[row][c2];
         }
 
         int ans = 0;
-        for(int i = -1 ; i <= 1 ; i++){
-            for(int j = -1 ; j <= 1 ; j++){
-                int new_row = row + 1;
-                int new_c1 = c1 + i;
-                int new_c2 = c2 + j;
-
-                if(new_c1 >= 0 && new_c1 < n && new_c2 >= 0 && new_c2 < n ){
-                    ans = Math.max(ans , solve(grid , new_row , new_c1 , new_c2));
-                }
-
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < n ; j++){
+                ans = Math.max(ans , dp[m-1][i][j]);
             }
         }
-        return dp[row][c1][c2] =  cherry + ans; 
+        return ans;
     }
 }
+//T.C : O(row*col*col * 9)
+//S.C : O(row * col * col)
