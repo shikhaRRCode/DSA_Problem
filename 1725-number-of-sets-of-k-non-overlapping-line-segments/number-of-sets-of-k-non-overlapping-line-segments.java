@@ -1,31 +1,32 @@
 class Solution {
-    int[][] dp;
     int MOD = 1000000007;
-    public int numberOfSets(int n, int k) {
-        dp = new int[n+1][k+1];
-        for(int[] arr : dp)  Arrays.fill(arr , -1);
-
-        return solve(n , k , 0) % MOD;
-    }
-    public int solve(int n , int k , int i){
-        if(k == 0)   return 1;
+    public int numberOfSets(int n, int K) {
+        long[][] dp = new long[K+1][n+1];
+        //dp[k][i] :k No. of line segments left , when we are on ith point
         
-        if(i >= n)   return 0;
 
-        if(dp[i][k] != -1){
-            return dp[i][k];
+        //Base case: for k == 0 , we get one valid way
+        for(int i = 0 ; i < n ; i++){
+            dp[0][i] = 1;
         }
 
-        //skip
-        long skip = (solve(n , k , i+1) % MOD);
+        for(int k = 1 ; k <= K ; k++){
+            long[] prevRowSuffixSum = new long[n+1];
+            for(int x = n-1 ; x >= 0 ; x--){
+                prevRowSuffixSum[x] = (prevRowSuffixSum[x+1] + dp[k-1][x]) % MOD; 
+            }
 
-        //take --> start line sgement from i
-        long take = 0;
-        for(int j = i+1 ; j < n ; j++){
-            take += (solve(n , k-1 , j) % MOD);
+            for(int i = n-1 ; i >= 0 ; i--){
+                //skip
+                long skip = (dp[k][i+1] % MOD);
+
+                //take
+                long take = prevRowSuffixSum[i+1];
+
+                dp[k][i] = (skip + take % MOD);
+            }
         }
-
-        return dp[i][k] = (int)((skip + take) % MOD);
+        return (int)(dp[K][0] % MOD);
     }
 }
 //We have option
