@@ -10,6 +10,10 @@ class Solution {
             map.put(sum , i);
         }
 
+        if(sum < x){
+            return -1;
+        }
+        
         int target = sum - x;
         int longestSubArray = -1;
         sum = 0;
@@ -19,6 +23,7 @@ class Solution {
             if(map.containsKey(sum - target)){
                 longestSubArray = Math.max(longestSubArray , i - map.get(sum-target));
             }
+            
         }
         return longestSubArray == -1 ? -1 : n - longestSubArray;
     }
