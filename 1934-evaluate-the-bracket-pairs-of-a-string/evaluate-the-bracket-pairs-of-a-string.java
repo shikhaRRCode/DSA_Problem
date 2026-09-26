@@ -7,37 +7,30 @@ class Solution {
             map.put(list.get(0) , list.get(1));
         }
 
+        boolean isBracketOpen = false;
         StringBuilder result = new StringBuilder();
-        int i = 0;
-        while(i < n){
+        StringBuilder temp = new  StringBuilder();
+        for(int i =  0 ; i < n ; i++){
             char c = s.charAt(i);
+            if(c == '('){
+                isBracketOpen = true;
+            }
+            else if(c == ')'){
+                isBracketOpen = false;
 
-            if(isAlpha(c)){
+
+                result.append(map.containsKey(temp.toString()) ? map.get(temp.toString()) : "?");
+                temp.setLength(0);
+            }
+            else if(isBracketOpen){
+                temp.append(c);
+            }
+            else{
                 result.append(c);
             }
-            else{  //open bracket
-                i++;
-                StringBuilder temp = new StringBuilder();
-                while(i < n && s.charAt(i) != ')'){
-                    temp.append(s.charAt(i));
-
-                    i++;
-                }
-
-                if(map.containsKey(temp.toString())){
-                    result.append(map.get(temp.toString()));
-                }
-                else{
-                    result.append("?");
-                }
-
-            }
-            i++;
 
         }
         return result.toString();
     }
-    public boolean isAlpha(char c){
-        return c >= 97 && c <= 122;
-    }
+
 }
