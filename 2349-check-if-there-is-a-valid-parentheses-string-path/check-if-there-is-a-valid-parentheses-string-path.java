@@ -2,8 +2,10 @@ class Solution {
     int m, n;
     int[][][] t;
     public boolean solve(int i, int j, int openCount, char[][] grid) {
+        // Update bracket count for the current cell
         openCount += (grid[i][j] == '(') ? 1 : -1;
 
+        //Check validity immediately to avoid negative indexing in DP table
         if (openCount < 0)
             return false;
 
