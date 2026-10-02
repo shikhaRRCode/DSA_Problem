@@ -16,16 +16,17 @@ class Solution
 
         int i = 0 , j = 0;
         int minMoves=0;
-        while(i <= 100 && j <= 100){
+        while(n > 0){
             if(seatsPos[i] == 0)  i++;
 
             if(studentsPos[j] ==0) j++;
 
-            if(i <= 100 && j <= 100 && seatsPos[i] != 0 && studentsPos[j] != 0){
+            if(seatsPos[i] != 0 && studentsPos[j] != 0){
                 minMoves += Math.abs(j-i);
 
                 seatsPos[i]--;
                 studentsPos[j]--;
+                n--;
             }
         }
         return minMoves;
