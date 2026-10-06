@@ -1,20 +1,16 @@
 class Solution {
     public int minSwaps(String s) {
         int n = s.length();
+        Stack<Character> st = new Stack<>();
 
-        int left = 0 , count = 0;
         for(char ch : s.toCharArray()){
             if(ch == '['){
-                left++;
+                st.push(ch);
             }
-            else{
-                left--;
-                if(left < 0){
-                    count++;
-                    left = 0;
-                }
+            else if(!st.isEmpty()){
+                st.pop();
             }
         }
-        return (count+1)/2;
+        return (st.size() + 1)/2;
     }
 }
