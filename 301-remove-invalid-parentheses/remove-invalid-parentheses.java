@@ -13,10 +13,12 @@ class Solution {
         return new ArrayList<>(set);
     }
     public void solve(String s , int i , StringBuilder curr , int count){
+        // More ')' than '(' is invalid, prune this branch
         if(count < 0){
             return;
         }
 
+        // Base case: processed all characters
         if(i == n){
             if(count == 0){
                 if(curr.length() > maxLen){
@@ -31,7 +33,7 @@ class Solution {
             return;
         }
 
-        // if current character is alphabet
+        // If current character is a letter, just add it
         if(s.charAt(i) != '(' && s.charAt(i) != ')'){
             curr.append(s.charAt(i));
             solve(s , i+1 , curr , count);
