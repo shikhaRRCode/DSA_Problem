@@ -2,13 +2,11 @@ class Solution {
     public List<Integer> targetIndices(int[] nums, int target) {
         int n = nums.length;
 
-        List<Integer> ans = new ArrayList<>();
         Arrays.sort(nums);
-        for(int i = 0 ; i < n ; i++){
-            if(nums[i] == target){
-                ans.add(i);
-            }
-        }
+        List<Integer> ans = IntStream.range(0, nums.length)
+                .filter(i -> nums[i] == target)
+                .boxed()
+                .collect(Collectors.toList());
         return ans;
     }
 }
