@@ -1,38 +1,40 @@
 class Solution {
-    int m, n;
-    int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-    long dfs(int i, int j, int[][] grid) {
-        long sum = grid[i][j];
-        grid[i][j] = 0;
-
-        for (int[] dir : directions) {
-            int i_ = i + dir[0];
-            int j_ = j + dir[1];
-
-            if (i_ >= 0 && i_ < m && j_ >= 0 && j_ < n && grid[i_][j_] > 0) {
-                sum += dfs(i_, j_, grid);
-            }
-        }
-
-        return sum;
-    }
+    int[] row = {-1 , 0 , 1 , 0};
+    int[] col = { 0 , 1 , 0 , -1};
+    int m , n;
+    long sum;
     public int countIslands(int[][] grid, int k) {
         m = grid.length;
         n = grid[0].length;
 
         int count = 0;
+        for(int i = 0 ; i < m ; i++){
+            for(int j = 0 ; j < n ; j++){
+                if(grid[i][j] > 0){
+                    sum = 0;
+                    dfs(grid , i , j);
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] > 0) {
-                    long sum = dfs(i, j, grid);
-                    if (sum % k == 0)
-                        count++;
+                    if(sum % k == 0) count++;
                 }
             }
         }
-
         return count;
+    }
+    public void dfs(int[][] grid , int i , int j){
+        if(i < 0 || i >= m || j < 0 || j >= n){
+            return;
+        }
+        if(grid[i][j] <= 0){
+            return;
+        }
+
+        sum += grid[i][j];
+        grid[i][j] = -1;
+        for(int k = 0 ; k < 4 ; k++){
+            int new_i = i + row[k];
+            int new_j = j + col[k];
+
+            dfs(grid , new_i , new_j);
+        }
     }
 }
