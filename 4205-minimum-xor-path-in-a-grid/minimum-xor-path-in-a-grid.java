@@ -1,38 +1,52 @@
 class Solution {
-    int m, n;
-    Boolean[][][] memo;
     public int minCost(int[][] grid) {
-        m = grid.length;
-        n = grid[0].length;
-        // Max possible XOR for values up to 1023 is less than 1024
-        memo = new Boolean[m][n][1024];
-        
-        int minXor = Integer.MAX_VALUE;
-        for (int xor = 0; xor < 1024; xor++) {
-            if (canReach(grid, 0, 0, xor)) {
-                minXor = Math.min(minXor, xor);
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // dp[i][j] = BitSet of size 1024, index = XOR value, bit = reachable
+        BitSet[][] dp = new BitSet[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = new BitSet(1024);
             }
         }
-        return minXor;
-    }
 
-    private boolean canReach(int[][] grid, int i, int j, int targetXor) {
-        if (i >= m || j >= n) return false;
-        
-        // If we reach the bottom-right cell
-        if (i == m - 1 && j == n - 1) {
-            return grid[i][j] == targetXor;
+        dp[0][0].set(grid[0][0]);
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0)
+                    continue;
+
+                BitSet up = new BitSet(1024);    // [i-1][j]
+                BitSet left = new BitSet(1024);  // [i][j-1]
+
+                if (i > 0) {
+                    up = (BitSet) dp[i - 1][j].clone();
+                }
+                if (j > 0) {
+                    left = (BitSet) dp[i][j - 1].clone();
+                }
+
+                BitSet combined = (BitSet) up.clone();
+                combined.or(left);               // OR operation
+
+                for (int xorVal = 0; xorVal < 1024; xorVal++) {
+                    if (combined.get(xorVal)) {
+                        int resultXorVal = xorVal ^ grid[i][j];
+                        dp[i][j].set(resultXorVal);
+                    }
+                }
+            }
         }
-        
-        if (memo[i][j][targetXor] != null) {
-            return memo[i][j][targetXor];
+
+        // dp[m-1][n-1]
+        for (int xorVal = 0; xorVal < 1024; xorVal++) {
+            if (dp[m - 1][n - 1].get(xorVal)) {
+                return xorVal;
+            }
         }
-        
-        // Since we are working backwards or checking if targetXor is achievable:
-        // A cell's value grid[i][j] must be part of the XOR chain.
-        int nextXor = targetXor ^ grid[i][j];
-        
-        boolean res = canReach(grid, i + 1, j, nextXor) || canReach(grid, i, j + 1, nextXor);
-        return memo[i][j][targetXor] = res;
+
+        return -1;
     }
 }
