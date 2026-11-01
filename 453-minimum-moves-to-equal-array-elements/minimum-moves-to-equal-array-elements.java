@@ -2,15 +2,20 @@ class Solution {
     public int minMoves(int[] nums) {
         int n = nums.length;
 
-        Arrays.sort(nums);
-        int ans = 0;
-        for(int i = 1 ; i < n ; i++){
-            ans += nums[i] - nums[0];
+        int minEle =  Integer.MAX_VALUE;
+        int sum = 0;
+        for(int i = 0 ; i < n ; i++){
+            if(nums[i] < minEle){
+                minEle = nums[i];
+            }
+            sum += nums[i];
         }
-        return ans;
+
+        return sum - (n*minEle);
+
     }
 }
 
 //APPROACH:
-// sort the array
-// Instead of increasing n-1 elements , we decrease 1 remaining largest element
+// (nums[0] - minElem) + (nums[1] - minElem) +.. (nums[n-1] - minElem)
+// (nums[0] + nums[1] +.. nums[n-1]) - (n*minEle)
